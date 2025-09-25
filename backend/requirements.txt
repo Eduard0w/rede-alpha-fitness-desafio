@@ -1,0 +1,7 @@
+Flask
+requests
+pandas
+python-dateutil
+gunicorn
+apscheduler
+flask-cors
