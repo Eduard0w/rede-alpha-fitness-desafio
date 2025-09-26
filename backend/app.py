@@ -1,6 +1,7 @@
 from sys import displayhook
 import pandas as pd
 import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, jsonify
 from flask_cors import CORS
 #URL está modificada para conseguir ser lida
@@ -8,35 +9,31 @@ urlDoArquivo = "https://docs.google.com/spreadsheets/d/1OO7gDKXv4YJiDfpfrIHaXIa_
 
 CREDENTIALS_FILE = 'credentials.json'
 SPREADSHEET_ID = '1OO7gDKXv4YJiDfpfrIHaXIa_XUgDhl3rG2FQImQ-ixY'
-WORKSHEET_NAME = 'Página1'
 
-#Aqui: "on_bad_lines='warn'"; ele ignora as linhas problemáticas
-#df = pd.read_csv(urlDoArquivo, on_bad_lines='warn')
-df = pd.DataFrame()
+scopes = [
+  "https://spreadsheets.google.com/feeds",
+  "https://www.googleapis.com/auth/drive",
+]
+creds = ServiceAccountCredentials.from_json_keyfile_name(
+  CREDENTIALS_FILE,
+  scopes,
+)
+client = gspread.authorize(creds) #cliente criado e autorizado para ler/modificar a planilha
 
-def pegar_dados_planilha():
-   try:
-    gc = gspread.service_account(filename=CREDENTIALS_FILE)#usada para autenticar e autorizar uma aplicação Python, através do uso de uma conta de serviço (service account) de uma Conta Google, para aceder e interagir com o Google Sheets
-    sh = gc.open_by_key(SPREADSHEET_ID)
-    worksheet = sh.worksheet(WORKSHEET_NAME)
+planilha_completa = client.open_by_key(SPREADSHEET_ID)
+pagina_planilha = planilha_completa.get_worksheet(0)#pega a aba/página especifica para ser lida/modificada
 
-    records = worksheet.get_all_records()
-    dataframe = pd.DataFrame(records)
-
-    return dataframe
-   except Exception as e:
-    print(f"Erro ao ler dados da planilha: {e}")
-    return pd.DataFrame()
-
-
+def mostrar_planilha():
+  dados = pagina_planilha.get_all_records()
+  df = pd.DataFrame(dados)
+  # print(df)
+  return df
 
 
 
 
-
-
-worksheet = df.sheet1
-dataframe = pd.DataFrame(worksheet.get_all_records())
+# worksheet = df.sheet1
+# dataframe = pd.DataFrame(worksheet.get_all_records())
 # print(df.head()) #mostra apenas 4 linhas do arquivo
 # print(df.index) #não entendi o que mostra...
 # print(df.sort_values(by="id"))
@@ -45,10 +42,10 @@ dataframe = pd.DataFrame(worksheet.get_all_records())
 
 app = Flask(__name__)
 CORS(app)
-# Define uma rota de exemplo
+
 @app.route('/api/dados', methods=['GET'])
 def trazerInformacao():
-  dados_json = df.head().to_json(orient='records')
+  dados_json = mostrar_planilha().to_json(orient='records')
   return jsonify(dados_json), 201
 
 # Executa a aplicação
