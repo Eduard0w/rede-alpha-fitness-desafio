@@ -1,4 +1,6 @@
 Flask
+flask-cors
+flask-apscheduler
 requests
 pandas
 python-dateutil
@@ -6,3 +8,4 @@ gunicorn
 apscheduler
 flask-cors
 gspread
+oauth2client
