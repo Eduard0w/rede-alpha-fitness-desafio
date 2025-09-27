@@ -1,0 +1,149 @@
+:root {
+  --background--y: #ffcc00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+/* ====== Layout geral ====== */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  background: var(--background--y);
+  color: #222;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Input de busca ====== */
+.search-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.button_filter {
+  background-color: var(--background--y);
+  border: 0;
+  border-radius: 5px;
+  padding: 6px 15px 6px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.button_filter:hover {
+  background-color: #d48c20;
+  cursor: pointer;
+}
+.button_filter span {
+  color: #222;
+  font-size: larger;
+  font-weight: bold;
+}
+.button_filter img {
+  color: #222;
+}
+
+#search-input {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 300px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+#search-input:focus {
+  border-color: var(--background--y);
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 204, 0, 0.6);
+}
+
+/* ====== Tabela ====== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+thead {
+  background: var(--background--y);
+  color: #222;
+  font-weight: bold;
+}
+
+thead th {
+  padding: 12px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tbody td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ffeda3;
+}
+
+tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+tbody tr:hover {
+  background: #fff7d1;
+  transition: 0.2s;
+}
+
+/* ====== Responsividade ====== */
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    background: #fff;
+  }
+
+  tbody td {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 5px;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+}

@@ -1,33 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.redealphafitness.com.br/imagens/favicon/favicon-32x32.png">
     <title>Leitor de Planilha</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: sans-serif;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 
 <body>
-    <h1>Dados da Planilha (via API Flask)</h1>
+    <div class="titulo">
+        <h1>Dados da Planilha (via API Flask)</h1>
+    </div>
+
+    <div class="search-container">
+        <!-- <label for="search-input">Faça a busca:</label> -->
+        <button class="button_filter" id="filter">
+            <span id="button_text">nome</span>
+            <img src="./assets/img/filtro.svg" alt="">
+        </button>
+        <input type="text" name="buscar_dados" id="search-input" placeholder="Digite (nome, cpf ou número)...">
+    </div>
+
     <table id="data-table">
         <thead>
             <tr>
