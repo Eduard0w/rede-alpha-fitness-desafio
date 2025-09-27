@@ -69,8 +69,12 @@ def buscar(tipo_de_busca, dado_buscado):
         
    try:
         nome_coluna = tipo_de_busca
+
+        dado_buscado_lower = dado_buscado.lower()
+        coluna_como_texto = dados_da_planilha_cache[nome_coluna].astype(str)
+
         df_filtrado = dados_da_planilha_cache[
-            dados_da_planilha_cache[nome_coluna].astype(str).str.contains(dado_buscado, case=False, na=False)
+            coluna_como_texto.str.lower().str.startswith(dado_buscado_lower, na=False)
         ]
 
         if df_filtrado.empty:

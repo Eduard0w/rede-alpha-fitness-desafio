@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tableHead = dataTable.querySelector("thead tr");
   const tableBody = dataTable.querySelector("tbody");
 
-  const options = ["nome", "número", "email", "cpf"];
+  const options = ["nome", "numero", "email", "cpf"];
   let index = 0;
 
   /**
