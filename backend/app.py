@@ -1,5 +1,6 @@
 import os
 from sys import displayhook
+import unicodedata
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -57,6 +58,15 @@ def buscar_planilha():
        logging.error(f"Erro ao buscar dados da planilha: {e}")
        dados_da_planilha_cache = None
 
+
+def remover_acentos(texto):
+    # Normaliza o texto para a forma NFD (Canonical Decomposition)
+    # Isso separa os caracteres base de seus acentos (ex: 'ç' -> 'c' + '̧')
+    texto_normalizado = unicodedata.normalize('NFD', texto)
+    # Remove os caracteres de acento (que estão na categoria 'Mn' - Mark, Nonspacing)
+    return ''.join(c for c in texto_normalizado if unicodedata.category(c) != 'Mn')
+
+
 # esse método seria para a utilização de um filtro para buscar dados na planilha
 # tipo_de_busca = filtro(no caso da planilha teriamos como opção nome, id, cpf e numero)
 # dado_buscado = busca(nesse caso, seria o dado que o usuario colocaria no input para fazer a busca)
@@ -70,11 +80,15 @@ def buscar(tipo_de_busca, dado_buscado):
    try:
         nome_coluna = tipo_de_busca
 
-        dado_buscado_lower = dado_buscado.lower()
         coluna_como_texto = dados_da_planilha_cache[nome_coluna].astype(str)
+        # 2. Remove acentos e converte para minúsculas a coluna do DataFrame.
+        #    O método .apply() executa a função 'remover_acentos' em cada item da coluna.
+        coluna_processada = coluna_como_texto.apply(remover_acentos).str.lower()
+        # 3. Remove acentos e converte para minúsculas o input do usuário.
+        dado_buscado_processado = remover_acentos(dado_buscado).lower()
 
         df_filtrado = dados_da_planilha_cache[
-            coluna_como_texto.str.lower().str.startswith(dado_buscado_lower, na=False)
+            coluna_processada.str.startswith(dado_buscado_processado, na=False)
         ]
 
         if df_filtrado.empty:
