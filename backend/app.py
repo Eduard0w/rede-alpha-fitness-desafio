@@ -1,14 +1,15 @@
+import os
 from sys import displayhook
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from flask import Flask, jsonify, request
+from flask import Flask, json, jsonify, request
 from flask_apscheduler import APScheduler
 from flask_cors import CORS
 import logging
 from datetime import datetime
 
-CREDENTIALS_FILE = 'credentials.json'
+CREDENTIALS_FILE = json.loads(os.environ["GOOGLE_CREDENTIALS"])
 SPREADSHEET_ID = '1OO7gDKXv4YJiDfpfrIHaXIa_XUgDhl3rG2FQImQ-ixY'
 
 dados_da_planilha_cache = None
