@@ -9,7 +9,7 @@ from flask_cors import CORS
 import logging
 from datetime import datetime
 
-CREDENTIALS_FILE = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+CREDENTIALS_FILE = 'credentials.json'
 SPREADSHEET_ID = '1OO7gDKXv4YJiDfpfrIHaXIa_XUgDhl3rG2FQImQ-ixY'
 
 dados_da_planilha_cache = None
